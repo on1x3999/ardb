@@ -1,0 +1,1002 @@
+[
+  {
+    "abilities": [
+      "custom_spectre_haunt",
+      "custom_naga_siren_mirror_image",
+      "antimage_mana_break",
+      "custom_abaddon_curse_of_avernus"
+    ],
+    "count": 58,
+    "percent": 0.32
+  },
+  {
+    "abilities": [
+      "custom_spectre_haunt",
+      "antimage_mana_break",
+      "custom_abaddon_curse_of_avernus",
+      "custom_chaos_knight_chaos_strike"
+    ],
+    "count": 32,
+    "percent": 0.17
+  },
+  {
+    "abilities": [
+      "custom_life_stealer_rage",
+      "bloodseeker_bloodrage",
+      "custom_silencer_glaives_of_wisdom",
+      "muerta_pierce_the_veil"
+    ],
+    "count": 27,
+    "percent": 0.15
+  },
+  {
+    "abilities": [
+      "custom_spectre_haunt",
+      "antimage_mana_break",
+      "custom_phantom_lancer_spirit_lance",
+      "custom_abaddon_curse_of_avernus"
+    ],
+    "count": 24,
+    "percent": 0.13
+  },
+  {
+    "abilities": [
+      "lycan_shapeshift",
+      "custom_skeleton_king_vampiric_aura",
+      "tusk_tag_team",
+      "custom_lone_druid_spirit_link"
+    ],
+    "count": 20,
+    "percent": 0.11
+  },
+  {
+    "abilities": [
+      "undying_flesh_golem",
+      "earth_spirit_rolling_boulder",
+      "huskar_berserkers_blood",
+      "centaur_double_edge"
+    ],
+    "count": 19,
+    "percent": 0.1
+  },
+  {
+    "abilities": [
+      "custom_spectre_haunt",
+      "custom_naga_siren_mirror_image",
+      "custom_abaddon_curse_of_avernus",
+      "custom_chaos_knight_chaos_strike"
+    ],
+    "count": 18,
+    "percent": 0.1
+  },
+  {
+    "abilities": [
+      "custom_dragon_knight_elder_dragon_form",
+      "custom_elder_titan_ancestral_spirit",
+      "broodmother_insatiable_hunger",
+      "bloodseeker_bloodrage"
+    ],
+    "count": 18,
+    "percent": 0.1
+  },
+  {
+    "abilities": [
+      "custom_life_stealer_rage",
+      "custom_silencer_glaives_of_wisdom",
+      "muerta_pierce_the_veil",
+      "phantom_assassin_phantom_strike"
+    ],
+    "count": 18,
+    "percent": 0.1
+  },
+  {
+    "abilities": [
+      "custom_spectre_haunt",
+      "custom_abaddon_curse_of_avernus",
+      "antimage_mana_break",
+      "troll_warlord_fervor"
+    ],
+    "count": 17,
+    "percent": 0.09
+  },
+  {
+    "abilities": [
+      "custom_spectre_haunt",
+      "custom_chaos_knight_chaos_strike",
+      "custom_naga_siren_mirror_image",
+      "antimage_mana_break"
+    ],
+    "count": 17,
+    "percent": 0.09
+  },
+  {
+    "abilities": [
+      "juggernaut_omni_slash",
+      "custom_slark_essence_shift",
+      "custom_monkey_king_jingu_mastery",
+      "tidehunter_anchor_smash"
+    ],
+    "count": 16,
+    "percent": 0.09
+  },
+  {
+    "abilities": [
+      "undying_flesh_golem",
+      "earth_spirit_rolling_boulder",
+      "custom_pudge_flesh_heap",
+      "centaur_double_edge"
+    ],
+    "count": 16,
+    "percent": 0.09
+  },
+  {
+    "abilities": [
+      "custom_skeleton_king_vampiric_aura",
+      "custom_lone_druid_spirit_bear",
+      "custom_visage_summon_familiars",
+      "custom_lone_druid_spirit_link"
+    ],
+    "count": 16,
+    "percent": 0.09
+  },
+  {
+    "abilities": [
+      "slark_shadow_dance",
+      "custom_slardar_bash_of_the_deep",
+      "ursa_fury_swipes",
+      "troll_warlord_fervor"
+    ],
+    "count": 13,
+    "percent": 0.07
+  },
+  {
+    "abilities": [
+      "abaddon_borrowed_time",
+      "custom_ursa_earthshock",
+      "nyx_assassin_spiked_carapace",
+      "custom_axe_counter_helix"
+    ],
+    "count": 13,
+    "percent": 0.07
+  },
+  {
+    "abilities": [
+      "custom_spectre_haunt",
+      "antimage_mana_break",
+      "custom_chaos_knight_chaos_strike",
+      "troll_warlord_fervor"
+    ],
+    "count": 12,
+    "percent": 0.07
+  },
+  {
+    "abilities": [
+      "custom_lycan_summon_wolves",
+      "custom_lone_druid_spirit_bear",
+      "custom_lone_druid_spirit_link",
+      "custom_visage_summon_familiars"
+    ],
+    "count": 12,
+    "percent": 0.07
+  },
+  {
+    "abilities": [
+      "bloodseeker_bloodrage",
+      "wisp_overcharge",
+      "muerta_pierce_the_veil",
+      "custom_silencer_glaives_of_wisdom"
+    ],
+    "count": 12,
+    "percent": 0.07
+  },
+  {
+    "abilities": [
+      "custom_visage_summon_familiars",
+      "custom_skeleton_king_vampiric_aura",
+      "tusk_tag_team",
+      "custom_lone_druid_spirit_link"
+    ],
+    "count": 12,
+    "percent": 0.07
+  },
+  {
+    "abilities": [
+      "huskar_berserkers_blood",
+      "earth_spirit_rolling_boulder",
+      "custom_pudge_flesh_heap",
+      "centaur_double_edge"
+    ],
+    "count": 12,
+    "percent": 0.07
+  },
+  {
+    "abilities": [
+      "custom_spectre_haunt",
+      "custom_phantom_lancer_spirit_lance",
+      "custom_naga_siren_mirror_image",
+      "antimage_mana_break"
+    ],
+    "count": 11,
+    "percent": 0.06
+  },
+  {
+    "abilities": [
+      "custom_life_stealer_rage",
+      "bloodseeker_bloodrage",
+      "ursa_fury_swipes",
+      "muerta_pierce_the_veil"
+    ],
+    "count": 11,
+    "percent": 0.06
+  },
+  {
+    "abilities": [
+      "nyx_assassin_spiked_carapace",
+      "custom_dragon_knight_dragon_blood",
+      "custom_axe_counter_helix",
+      "abaddon_borrowed_time"
+    ],
+    "count": 11,
+    "percent": 0.06
+  },
+  {
+    "abilities": [
+      "custom_visage_summon_familiars",
+      "custom_lone_druid_spirit_link",
+      "custom_skeleton_king_vampiric_aura",
+      "custom_lycan_summon_wolves"
+    ],
+    "count": 10,
+    "percent": 0.05
+  },
+  {
+    "abilities": [
+      "custom_naga_siren_mirror_image",
+      "antimage_mana_break",
+      "custom_phantom_lancer_spirit_lance",
+      "custom_abaddon_curse_of_avernus"
+    ],
+    "count": 10,
+    "percent": 0.05
+  },
+  {
+    "abilities": [
+      "undying_flesh_golem",
+      "custom_undying_decay",
+      "custom_pudge_flesh_heap",
+      "centaur_double_edge"
+    ],
+    "count": 9,
+    "percent": 0.05
+  },
+  {
+    "abilities": [
+      "custom_lycan_feral_impulse",
+      "custom_visage_summon_familiars",
+      "custom_skeleton_king_vampiric_aura",
+      "custom_lone_druid_spirit_link"
+    ],
+    "count": 9,
+    "percent": 0.05
+  },
+  {
+    "abilities": [
+      "custom_life_stealer_rage",
+      "bloodseeker_bloodrage",
+      "slark_shadow_dance",
+      "custom_silencer_glaives_of_wisdom"
+    ],
+    "count": 9,
+    "percent": 0.05
+  },
+  {
+    "abilities": [
+      "custom_spectre_haunt",
+      "custom_naga_siren_mirror_image",
+      "troll_warlord_fervor",
+      "custom_abaddon_curse_of_avernus"
+    ],
+    "count": 9,
+    "percent": 0.05
+  },
+  {
+    "abilities": [
+      "custom_juggernaut_blade_fury",
+      "custom_queenofpain_blink",
+      "dark_seer_vacuum",
+      "enigma_black_hole"
+    ],
+    "count": 9,
+    "percent": 0.05
+  },
+  {
+    "abilities": [
+      "abaddon_borrowed_time",
+      "custom_ursa_earthshock",
+      "nyx_assassin_spiked_carapace",
+      "keeper_of_the_light_chakra_magic"
+    ],
+    "count": 9,
+    "percent": 0.05
+  },
+  {
+    "abilities": [
+      "custom_pudge_flesh_heap",
+      "undying_flesh_golem",
+      "huskar_berserkers_blood",
+      "centaur_double_edge"
+    ],
+    "count": 9,
+    "percent": 0.05
+  },
+  {
+    "abilities": [
+      "custom_spectre_haunt",
+      "custom_abaddon_curse_of_avernus",
+      "custom_phantom_lancer_spirit_lance",
+      "custom_chaos_knight_chaos_strike"
+    ],
+    "count": 9,
+    "percent": 0.05
+  },
+  {
+    "abilities": [
+      "custom_life_stealer_rage",
+      "muerta_pierce_the_veil",
+      "phantom_assassin_phantom_strike",
+      "ursa_fury_swipes"
+    ],
+    "count": 9,
+    "percent": 0.05
+  },
+  {
+    "abilities": [
+      "custom_undying_decay",
+      "undying_flesh_golem",
+      "huskar_berserkers_blood",
+      "centaur_double_edge"
+    ],
+    "count": 9,
+    "percent": 0.05
+  },
+  {
+    "abilities": [
+      "batrider_sticky_napalm",
+      "custom_lina_fiery_soul",
+      "custom_slardar_bash_of_the_deep",
+      "slark_shadow_dance"
+    ],
+    "count": 9,
+    "percent": 0.05
+  },
+  {
+    "abilities": [
+      "lycan_shapeshift",
+      "tusk_tag_team",
+      "custom_lone_druid_spirit_bear",
+      "custom_lycan_summon_wolves"
+    ],
+    "count": 9,
+    "percent": 0.05
+  },
+  {
+    "abilities": [
+      "custom_spectre_haunt",
+      "custom_abaddon_curse_of_avernus",
+      "antimage_mana_break",
+      "custom_beastmaster_inner_beast"
+    ],
+    "count": 9,
+    "percent": 0.05
+  },
+  {
+    "abilities": [
+      "custom_sven_gods_strength",
+      "broodmother_insatiable_hunger",
+      "hoodwink_acorn_shot",
+      "custom_monkey_king_boundless_strike"
+    ],
+    "count": 9,
+    "percent": 0.05
+  },
+  {
+    "abilities": [
+      "custom_spectre_haunt",
+      "troll_warlord_fervor",
+      "custom_chaos_knight_chaos_strike",
+      "custom_abaddon_curse_of_avernus"
+    ],
+    "count": 9,
+    "percent": 0.05
+  },
+  {
+    "abilities": [
+      "custom_queenofpain_blink",
+      "custom_huskar_inner_fire",
+      "keeper_of_the_light_chakra_magic",
+      "abaddon_borrowed_time"
+    ],
+    "count": 8,
+    "percent": 0.04
+  },
+  {
+    "abilities": [
+      "custom_silencer_glaives_of_wisdom",
+      "custom_slardar_bash_of_the_deep",
+      "custom_sniper_take_aim",
+      "custom_windrunner_focusfire"
+    ],
+    "count": 8,
+    "percent": 0.04
+  },
+  {
+    "abilities": [
+      "custom_visage_summon_familiars",
+      "custom_lycan_summon_wolves",
+      "custom_lone_druid_spirit_link",
+      "custom_lycan_feral_impulse"
+    ],
+    "count": 8,
+    "percent": 0.04
+  },
+  {
+    "abilities": [
+      "custom_lone_druid_spirit_bear",
+      "custom_lone_druid_spirit_link",
+      "custom_visage_summon_familiars",
+      "custom_beastmaster_call_of_the_wild"
+    ],
+    "count": 8,
+    "percent": 0.04
+  },
+  {
+    "abilities": [
+      "custom_sniper_take_aim",
+      "bloodseeker_bloodrage",
+      "custom_silencer_glaives_of_wisdom",
+      "muerta_pierce_the_veil"
+    ],
+    "count": 8,
+    "percent": 0.04
+  },
+  {
+    "abilities": [
+      "broodmother_insatiable_hunger",
+      "phantom_assassin_phantom_strike",
+      "juggernaut_omni_slash",
+      "tidehunter_anchor_smash"
+    ],
+    "count": 8,
+    "percent": 0.04
+  },
+  {
+    "abilities": [
+      "custom_chaos_knight_phantasm",
+      "antimage_mana_break",
+      "custom_chaos_knight_chaos_strike",
+      "custom_abaddon_curse_of_avernus"
+    ],
+    "count": 8,
+    "percent": 0.04
+  },
+  {
+    "abilities": [
+      "custom_chaos_knight_phantasm",
+      "antimage_mana_break",
+      "custom_abaddon_curse_of_avernus",
+      "custom_phantom_lancer_spirit_lance"
+    ],
+    "count": 8,
+    "percent": 0.04
+  },
+  {
+    "abilities": [
+      "custom_slark_essence_shift",
+      "phantom_assassin_phantom_strike",
+      "juggernaut_omni_slash",
+      "faceless_void_time_lock"
+    ],
+    "count": 8,
+    "percent": 0.04
+  },
+  {
+    "abilities": [
+      "custom_visage_summon_familiars",
+      "custom_lycan_feral_impulse",
+      "custom_lone_druid_spirit_link",
+      "custom_visage_grave_chill"
+    ],
+    "count": 8,
+    "percent": 0.04
+  },
+  {
+    "abilities": [
+      "earth_spirit_rolling_boulder",
+      "huskar_berserkers_blood",
+      "custom_axe_counter_helix",
+      "custom_pudge_flesh_heap"
+    ],
+    "count": 8,
+    "percent": 0.04
+  },
+  {
+    "abilities": [
+      "custom_chaos_knight_phantasm",
+      "custom_naga_siren_mirror_image",
+      "custom_phantom_lancer_spirit_lance",
+      "antimage_mana_break"
+    ],
+    "count": 8,
+    "percent": 0.04
+  },
+  {
+    "abilities": [
+      "bloodseeker_bloodrage",
+      "custom_slark_essence_shift",
+      "ursa_fury_swipes",
+      "slark_shadow_dance"
+    ],
+    "count": 8,
+    "percent": 0.04
+  },
+  {
+    "abilities": [
+      "bloodseeker_bloodrage",
+      "ursa_fury_swipes",
+      "custom_slardar_bash_of_the_deep",
+      "slark_shadow_dance"
+    ],
+    "count": 8,
+    "percent": 0.04
+  },
+  {
+    "abilities": [
+      "juggernaut_omni_slash",
+      "tidehunter_anchor_smash",
+      "clinkz_burning_barrage",
+      "faceless_void_time_lock"
+    ],
+    "count": 8,
+    "percent": 0.04
+  },
+  {
+    "abilities": [
+      "custom_naga_siren_mirror_image",
+      "custom_chaos_knight_phantasm",
+      "antimage_mana_break",
+      "custom_abaddon_curse_of_avernus"
+    ],
+    "count": 8,
+    "percent": 0.04
+  },
+  {
+    "abilities": [
+      "custom_queenofpain_blink",
+      "pudge_rot",
+      "batrider_sticky_napalm",
+      "abaddon_borrowed_time"
+    ],
+    "count": 8,
+    "percent": 0.04
+  },
+  {
+    "abilities": [
+      "undying_flesh_golem",
+      "custom_pudge_flesh_heap",
+      "centaur_double_edge",
+      "faceless_void_time_walk"
+    ],
+    "count": 7,
+    "percent": 0.04
+  },
+  {
+    "abilities": [
+      "bloodseeker_bloodrage",
+      "custom_silencer_glaives_of_wisdom",
+      "troll_warlord_fervor",
+      "slark_shadow_dance"
+    ],
+    "count": 7,
+    "percent": 0.04
+  },
+  {
+    "abilities": [
+      "lycan_shapeshift",
+      "custom_skeleton_king_vampiric_aura",
+      "tusk_tag_team",
+      "custom_furion_force_of_nature"
+    ],
+    "count": 7,
+    "percent": 0.04
+  },
+  {
+    "abilities": [
+      "undying_flesh_golem",
+      "nyx_assassin_spiked_carapace",
+      "custom_undying_decay",
+      "huskar_berserkers_blood"
+    ],
+    "count": 7,
+    "percent": 0.04
+  },
+  {
+    "abilities": [
+      "custom_razor_eye_of_the_storm",
+      "earth_spirit_rolling_boulder",
+      "custom_pudge_flesh_heap",
+      "centaur_double_edge"
+    ],
+    "count": 7,
+    "percent": 0.04
+  },
+  {
+    "abilities": [
+      "lycan_shapeshift",
+      "custom_lycan_summon_wolves",
+      "custom_lone_druid_spirit_bear",
+      "custom_lone_druid_spirit_link"
+    ],
+    "count": 7,
+    "percent": 0.04
+  },
+  {
+    "abilities": [
+      "custom_queenofpain_blink",
+      "custom_huskar_inner_fire",
+      "custom_ursa_earthshock",
+      "keeper_of_the_light_chakra_magic"
+    ],
+    "count": 7,
+    "percent": 0.04
+  },
+  {
+    "abilities": [
+      "custom_life_stealer_rage",
+      "custom_windrunner_focusfire",
+      "ursa_fury_swipes",
+      "custom_slardar_bash_of_the_deep"
+    ],
+    "count": 7,
+    "percent": 0.04
+  },
+  {
+    "abilities": [
+      "broodmother_insatiable_hunger",
+      "phantom_assassin_phantom_strike",
+      "juggernaut_omni_slash",
+      "custom_slark_essence_shift"
+    ],
+    "count": 7,
+    "percent": 0.04
+  },
+  {
+    "abilities": [
+      "custom_life_stealer_rage",
+      "wisp_overcharge",
+      "custom_silencer_glaives_of_wisdom",
+      "muerta_pierce_the_veil"
+    ],
+    "count": 7,
+    "percent": 0.04
+  },
+  {
+    "abilities": [
+      "juggernaut_omni_slash",
+      "custom_lina_fiery_soul",
+      "tidehunter_anchor_smash",
+      "batrider_sticky_napalm"
+    ],
+    "count": 7,
+    "percent": 0.04
+  },
+  {
+    "abilities": [
+      "custom_chaos_knight_phantasm",
+      "custom_chaos_knight_reality_rift",
+      "antimage_mana_break",
+      "custom_naga_siren_mirror_image"
+    ],
+    "count": 7,
+    "percent": 0.04
+  },
+  {
+    "abilities": [
+      "bloodseeker_bloodrage",
+      "ursa_fury_swipes",
+      "broodmother_insatiable_hunger",
+      "slark_shadow_dance"
+    ],
+    "count": 7,
+    "percent": 0.04
+  },
+  {
+    "abilities": [
+      "custom_spectre_haunt",
+      "marci_guardian",
+      "custom_naga_siren_mirror_image",
+      "custom_abaddon_curse_of_avernus"
+    ],
+    "count": 7,
+    "percent": 0.04
+  },
+  {
+    "abilities": [
+      "earth_spirit_rolling_boulder",
+      "custom_razor_eye_of_the_storm",
+      "huskar_berserkers_blood",
+      "centaur_double_edge"
+    ],
+    "count": 7,
+    "percent": 0.04
+  },
+  {
+    "abilities": [
+      "custom_naga_siren_mirror_image",
+      "custom_chaos_knight_phantasm",
+      "antimage_mana_break",
+      "custom_chaos_knight_chaos_strike"
+    ],
+    "count": 7,
+    "percent": 0.04
+  },
+  {
+    "abilities": [
+      "bloodseeker_bloodrage",
+      "ursa_fury_swipes",
+      "custom_monkey_king_jingu_mastery",
+      "slark_shadow_dance"
+    ],
+    "count": 7,
+    "percent": 0.04
+  },
+  {
+    "abilities": [
+      "phantom_assassin_phantom_strike",
+      "juggernaut_omni_slash",
+      "custom_slark_essence_shift",
+      "custom_monkey_king_jingu_mastery"
+    ],
+    "count": 7,
+    "percent": 0.04
+  },
+  {
+    "abilities": [
+      "lycan_shapeshift",
+      "custom_lycan_summon_wolves",
+      "custom_skeleton_king_vampiric_aura",
+      "custom_lone_druid_spirit_link"
+    ],
+    "count": 7,
+    "percent": 0.04
+  },
+  {
+    "abilities": [
+      "custom_skeleton_king_vampiric_aura",
+      "custom_lone_druid_spirit_bear",
+      "lycan_shapeshift",
+      "tusk_tag_team"
+    ],
+    "count": 7,
+    "percent": 0.04
+  },
+  {
+    "abilities": [
+      "custom_dragon_knight_elder_dragon_form",
+      "bloodseeker_bloodrage",
+      "custom_dawnbreaker_luminosity",
+      "custom_slark_essence_shift"
+    ],
+    "count": 7,
+    "percent": 0.04
+  },
+  {
+    "abilities": [
+      "custom_visage_summon_familiars",
+      "custom_beastmaster_call_of_the_wild",
+      "custom_lycan_summon_wolves",
+      "custom_lone_druid_spirit_link"
+    ],
+    "count": 7,
+    "percent": 0.04
+  },
+  {
+    "abilities": [
+      "phantom_assassin_phantom_strike",
+      "juggernaut_omni_slash",
+      "tidehunter_anchor_smash",
+      "faceless_void_time_lock"
+    ],
+    "count": 6,
+    "percent": 0.03
+  },
+  {
+    "abilities": [
+      "nyx_assassin_spiked_carapace",
+      "abaddon_borrowed_time",
+      "shredder_reactive_armor",
+      "custom_dragon_knight_dragon_blood"
+    ],
+    "count": 6,
+    "percent": 0.03
+  },
+  {
+    "abilities": [
+      "custom_spectre_haunt",
+      "troll_warlord_fervor",
+      "custom_abaddon_curse_of_avernus",
+      "custom_phantom_lancer_spirit_lance"
+    ],
+    "count": 6,
+    "percent": 0.03
+  },
+  {
+    "abilities": [
+      "custom_visage_summon_familiars",
+      "custom_lone_druid_spirit_link",
+      "custom_skeleton_king_vampiric_aura",
+      "custom_beastmaster_call_of_the_wild"
+    ],
+    "count": 6,
+    "percent": 0.03
+  },
+  {
+    "abilities": [
+      "custom_lone_druid_spirit_link",
+      "custom_visage_summon_familiars",
+      "custom_lone_druid_spirit_bear",
+      "custom_visage_grave_chill"
+    ],
+    "count": 6,
+    "percent": 0.03
+  },
+  {
+    "abilities": [
+      "bloodseeker_bloodrage",
+      "custom_slardar_bash_of_the_deep",
+      "phantom_assassin_phantom_strike",
+      "juggernaut_omni_slash"
+    ],
+    "count": 6,
+    "percent": 0.03
+  },
+  {
+    "abilities": [
+      "marci_guardian",
+      "custom_windrunner_focusfire",
+      "custom_slardar_bash_of_the_deep",
+      "ursa_fury_swipes"
+    ],
+    "count": 6,
+    "percent": 0.03
+  },
+  {
+    "abilities": [
+      "faceless_void_time_lock",
+      "custom_lina_fiery_soul",
+      "juggernaut_omni_slash",
+      "tidehunter_anchor_smash"
+    ],
+    "count": 6,
+    "percent": 0.03
+  },
+  {
+    "abilities": [
+      "bloodseeker_bloodrage",
+      "slark_shadow_dance",
+      "custom_slardar_bash_of_the_deep",
+      "custom_silencer_glaives_of_wisdom"
+    ],
+    "count": 6,
+    "percent": 0.03
+  },
+  {
+    "abilities": [
+      "custom_spectre_haunt",
+      "custom_abaddon_curse_of_avernus",
+      "custom_chaos_knight_chaos_strike",
+      "custom_beastmaster_inner_beast"
+    ],
+    "count": 6,
+    "percent": 0.03
+  },
+  {
+    "abilities": [
+      "custom_lone_druid_spirit_bear",
+      "custom_visage_summon_familiars",
+      "custom_lycan_feral_impulse",
+      "custom_lone_druid_spirit_link"
+    ],
+    "count": 6,
+    "percent": 0.03
+  },
+  {
+    "abilities": [
+      "undying_flesh_golem",
+      "huskar_berserkers_blood",
+      "faceless_void_time_walk",
+      "centaur_double_edge"
+    ],
+    "count": 6,
+    "percent": 0.03
+  },
+  {
+    "abilities": [
+      "lycan_shapeshift",
+      "custom_skeleton_king_vampiric_aura",
+      "custom_lycan_summon_wolves",
+      "tusk_tag_team"
+    ],
+    "count": 6,
+    "percent": 0.03
+  },
+  {
+    "abilities": [
+      "marci_guardian",
+      "custom_spectre_haunt",
+      "antimage_mana_break",
+      "custom_abaddon_curse_of_avernus"
+    ],
+    "count": 6,
+    "percent": 0.03
+  },
+  {
+    "abilities": [
+      "juggernaut_omni_slash",
+      "custom_huskar_burning_spear",
+      "clinkz_burning_barrage",
+      "pangolier_swashbuckle"
+    ],
+    "count": 6,
+    "percent": 0.03
+  },
+  {
+    "abilities": [
+      "undying_flesh_golem",
+      "earth_spirit_rolling_boulder",
+      "custom_pudge_flesh_heap",
+      "huskar_berserkers_blood"
+    ],
+    "count": 6,
+    "percent": 0.03
+  },
+  {
+    "abilities": [
+      "earth_spirit_rolling_boulder",
+      "custom_undying_decay",
+      "centaur_double_edge",
+      "huskar_berserkers_blood"
+    ],
+    "count": 6,
+    "percent": 0.03
+  },
+  {
+    "abilities": [
+      "undying_flesh_golem",
+      "custom_undying_decay",
+      "earth_spirit_rolling_boulder",
+      "huskar_berserkers_blood"
+    ],
+    "count": 6,
+    "percent": 0.03
+  },
+  {
+    "abilities": [
+      "bloodseeker_bloodrage",
+      "ursa_fury_swipes",
+      "slark_shadow_dance",
+      "troll_warlord_fervor"
+    ],
+    "count": 6,
+    "percent": 0.03
+  },
+  {
+    "abilities": [
+      "custom_dragon_knight_elder_dragon_form",
+      "bloodseeker_bloodrage",
+      "custom_chaos_knight_chaos_strike",
+      "custom_slark_essence_shift"
+    ],
+    "count": 6,
+    "percent": 0.03
+  }
+]

@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ability Arena - Popular Combinations</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            color: #fff;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #e94560, #f39c12);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #888;
+            margin-bottom: 30px;
+        }
+        
+        .nav-link {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #e94560;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        
+        .nav-link:hover {
+            background: #d13650;
+        }
+        
+        .combo-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .combo-rank {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #f39c12;
+            min-width: 40px;
+        }
+        
+        .combo-abilities {
+            display: flex;
+            gap: 10px;
+            flex: 1;
+        }
+        
+        .ability-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+        
+        .ability-box:hover {
+            background: rgba(255,255,255,0.1);
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            overflow-y: auto;
+            padding: 20px;
+        }
+        
+        .modal.active {
+            display: block;
+        }
+        
+        .modal-content {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #1a1a2e;
+            border-radius: 15px;
+            padding: 20px;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .close-btn {
+            background: #e94560;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .ability-image {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            object-fit: cover;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .ability-name {
+            font-size: 0.7rem;
+            color: #888;
+            text-align: center;
+            max-width: 70px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        
+        .combo-stats {
+            text-align: right;
+            min-width: 120px;
+        }
+        
+        .combo-count {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #e94560;
+        }
+        
+        .combo-percent {
+            color: #888;
+            font-size: 0.9rem;
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        
+        .pagination button {
+            padding: 10px 20px;
+            background: #e94560;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .pagination button:disabled {
+            background: #555;
+            cursor: not-allowed;
+        }
+        
+        .pagination span {
+            padding: 10px;
+            color: #888;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 50px;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔥 Popular Combinations 🔥</h1>
+        <p class="subtitle">Top Ability Combinations</p>
+        
+        <a href="index.html" class="nav-link">← Back to Matches</a>
+        
+        <div class="pagination">
+            <button id="prevBtn" onclick="changePage(-1)">← Prev</button>
+            <span id="pageInfo">Page 1</span>
+            <button id="nextBtn" onclick="changePage(1)">Next →</button>
+        </div>
+        
+        <div id="combosContainer">
+            <div class="loading">Loading data...</div>
+        </div>
+        
+        <div class="pagination">
+            <button id="prevBtn2" onclick="changePage(-1)">← Prev</button>
+            <button id="nextBtn2" onclick="changePage(1)">Next →</button>
+        </div>
+    </div>
+
+    <!-- Modal for ability combos -->
+    <div id="abilityModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Ability Combinations</h2>
+                <button class="close-btn" onclick="closeModal()">Close</button>
+            </div>
+            <div id="modalBody">
+                <div class="loading">Loading...</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let abilityCombosData = {};
+        
+        // Load ability combos data
+        async function loadAbilityCombos() {
+            try {
+                const response = await fetch('ability_combos.json');
+                abilityCombosData = await response.json();
+            } catch (error) {
+                console.error('Error loading ability combos:', error);
+            }
+        }
+        
+        loadAbilityCombos();
+        
+        function openAbilityModal(ability) {
+            const combos = abilityCombosData[ability] || [];
+            const total = combos.length;
+            
+            document.getElementById('modalTitle').textContent = 'Top Combinations with ' + formatAbilityName(ability);
+            
+            // Don't group - show each combo individually with original ability positions
+            let html = '';
+            
+            // Show up to 50 combos, each with original ability order
+            combos.slice(0, 50).forEach((combo, idx) => {
+                let abilitiesHTML = '<div class="combo-abilities" style="margin: 10px 0;">';
+                combo.abilities.forEach(a => {
+                    abilitiesHTML += '<img src="images/abilities/' + getAbilityImageName(a) + '.png" class="ability-image" style="width:40px;height:40px;' + (a === ability ? '' : 'opacity:0.7;') + '">';
+                });
+                abilitiesHTML += '</div>';
+                
+                html += '<div class="combo-card"><div class="combo-rank">' + (idx+1) + '</div>' + abilitiesHTML + '<div class="combo-stats"><div class="combo-count">1</div></div></div>';
+            });
+            
+            document.getElementById('modalBody').innerHTML = html;
+            document.getElementById('abilityModal').classList.add('active');
+        }
+        
+        function closeModal() {
+            document.getElementById('abilityModal').classList.remove('active');
+        }
+        
+        // Close modal on outside click
+        document.getElementById('abilityModal').addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+        
+        // Close modal on Escape
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeModal();
+        });
+        
+        // Override renderPage to add click handlers
+        let allCombos = [];
+        let currentPage = 1;
+        const combosPerPage = 20;
+        
+        async function loadData() {
+            try {
+                const response = await fetch('popular_combos.json');
+                allCombos = await response.json();
+                
+                renderPage(currentPage);
+            } catch (error) {
+                console.error('Error loading data:', error);
+                document.getElementById('combosContainer').innerHTML = 
+                    '<div class="loading">Error loading data.</div>';
+            }
+        }
+        
+        function renderPage(page) {
+            const container = document.getElementById('combosContainer');
+            container.innerHTML = '';
+            
+            const start = (page - 1) * combosPerPage;
+            const end = start + combosPerPage;
+            const pageData = allCombos.slice(start, end);
+            
+            pageData.forEach((combo, index) => {
+                const rank = start + index + 1;
+                
+                let abilitiesHTML = '';
+                combo.abilities.forEach(ability => {
+                    abilitiesHTML += `
+                        <div class="ability-box" onclick="openAbilityModal('${ability}')">
+                            <img src="images/abilities/${getAbilityImageName(ability)}.png" alt="${ability}" class="ability-image">
+                            <span class="ability-name">${formatAbilityName(ability)}</span>
+                        </div>
+                    `;
+                });
+                
+                const card = document.createElement('div');
+                card.className = 'combo-card';
+                card.innerHTML = `
+                    <div class="combo-rank">#${rank}</div>
+                    <div class="combo-abilities">
+                        ${abilitiesHTML}
+                    </div>
+                    <div class="combo-stats">
+                        <div class="combo-count">${combo.count}</div>
+                        <div class="combo-percent">${combo.percent}%</div>
+                    </div>
+                `;
+                
+                container.appendChild(card);
+            });
+            
+            const totalPages = Math.ceil(allCombos.length / combosPerPage);
+            document.getElementById('pageInfo').textContent = `Page ${page} / ${totalPages}`;
+            
+            document.getElementById('prevBtn').disabled = page <= 1;
+            document.getElementById('prevBtn2').disabled = page <= 1;
+            document.getElementById('nextBtn').disabled = page >= totalPages;
+            document.getElementById('nextBtn2').disabled = page >= totalPages;
+        }
+        
+        function changePage(delta) {
+            const totalPages = Math.ceil(allCombos.length / combosPerPage);
+            const newPage = currentPage + delta;
+            if (newPage >= 1 && newPage <= totalPages) {
+                currentPage = newPage;
+                renderPage(currentPage);
+                window.scrollTo(0, 0);
+            }
+        }
+        
+        function getAbilityImageName(name) {
+            // Mapping from API ability names to image file names
+            const mapping = {
+                'custom_abaddon_curse_of_avernus': 'abaddon_frostmourne',
+                'custom_skeleton_king_vampiric_aura': 'skeleton_king_bone_guard',
+                'custom_slardar_bash_of_the_deep': 'slardar_bash',
+                'custom_beastmaster_call_of_the_wild': 'beastmaster_primal_roar',
+                'clinkz_burning_barrage': 'clinkz_burning_barrage',
+                'custom_luna_lunar_blessing': 'luna_lunar_blessing',
+                'custom_zuus_static_field': 'zuus_static_field'
+            };
+            
+            // Remove custom_ prefix and check mapping
+            let cleanName = name.replace(/^custom_/, '');
+            
+            return mapping[cleanName] || mapping[name] || cleanName;
+        }
+        
+        function formatAbilityName(name) {
+            const heroes = ['abaddon', 'abyssal_underlord', 'alchemist', 'ancient_apparition', 'antimage', 'arc_warden', 'axe', 'bane', 'batrider', 'beastmaster', 'bloodseeker', 'bounty_hunter', 'brewmaster', 'bristleback', 'broodmother', 'centaur', 'chaos_knight', 'chen', 'clinkz', 'crystal_maiden', 'dark_seer', 'dark_willow', 'dawnbreaker', 'dazzle', 'death_prophet', 'disruptor', 'doom_bringer', 'dragon_knight', 'drow_ranger', 'earth_spirit', 'earthshaker', 'elder_titan', 'ember_spirit', 'enchantress', 'enigma', 'faceless_void', 'furion', 'grimstroke', 'gyrocopter', 'hoodwink', 'huskar', 'invoker', 'jakiro', 'juggernaut', 'keeper_of_the_light', 'kez', 'kunkka', 'largo', 'legion_commander', 'leshrac', 'lich', 'life_stealer', 'lina', 'lion', 'lone_druid', 'luna', 'lycan', 'magnataur', 'marci', 'mars', 'medusa', 'meepo', 'mirana', 'monkey_king', 'morphling', 'muerta', 'naga_siren', 'necrolyte', 'nevermore', 'night_stalker', 'nyx_assassin', 'obsidian_destroyer', 'ogre_magi', 'omniknight', 'oracle', 'pangolier', 'phantom_assassin', 'phantom_lancer', 'phoenix', 'primal_beast', 'puck', 'pudge', 'pugna', 'queenofpain', 'rattletrap', 'razor', 'riki', 'ringmaster', 'rubick', 'sand_king', 'shadow_demon', 'shadow_shaman', 'shredder', 'silencer', 'skeleton_king', 'skywrath_mage', 'slardar', 'snapfire', 'sniper', 'spectre', 'spirit_breaker', 'storm_spirit', 'sven', 'techies', 'templar_assassin', 'terrorblade', 'tidehunter', 'tinker', 'tiny', 'treant', 'troll_warlord', 'tusk', 'undying', 'ursa', 'vengefulspirit', 'venomancer', 'viper', 'visage', 'void_spirit', 'warlock', 'weaver', 'windrunner', 'winter_wyvern', 'wisp', 'witch_doctor', 'zuus'];
+            
+            name = name.replace(/^custom_/, '');
+            
+            for (let hero of heroes) {
+                if (name.startsWith(hero + '_')) {
+                    name = name.substring(hero.length + 1);
+                    break;
+                }
+            }
+            
+            name = name.replace(/_/g, ' ');
+            return name.replace(/\b\w/g, l => l.toUpperCase());
+        }
+        
+        loadData();
+    </script>
+</body>
+</html>

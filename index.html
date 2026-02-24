@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ability Arena - Winners Analysis</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            color: #fff;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #e94560, #f39c12);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #888;
+            margin-bottom: 30px;
+        }
+        
+        .match-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .match-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(233, 69, 96, 0.2);
+        }
+        
+        .match-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .match-id {
+            color: #f39c12;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        .winner-info {
+            text-align: right;
+        }
+        
+        .winner-name {
+            font-size: 1.3rem;
+            color: #e94560;
+            font-weight: bold;
+        }
+        
+        .winner-god {
+            color: #888;
+            font-size: 0.9rem;
+        }
+        
+        .gods-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        
+        .god-card {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .god-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .god-image {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+        
+        .god-name {
+            font-size: 1rem;
+            color: #fff;
+            text-transform: capitalize;
+        }
+        
+        .abilities-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .ability-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+        
+        .ability-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
+        
+        .ability-image {
+            width: 40px;
+            height: 40px;
+            border-radius: 6px;
+            object-fit: cover;
+        }
+        
+        .ability-info {
+            flex: 1;
+        }
+        
+        .ability-name {
+            font-size: 0.85rem;
+            color: #ccc;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 150px;
+        }
+        
+        .ability-level {
+            display: inline-block;
+            background: linear-gradient(135deg, #e94560, #f39c12);
+            color: #fff;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            min-width: 30px;
+            text-align: center;
+        }
+        
+        .ability-level.max {
+            background: linear-gradient(135deg, #f39c12, #f39c12);
+        }
+        
+        .ability-level.high {
+            background: linear-gradient(135deg, #0004ff, #0004ff);
+        }
+        
+        .ability-level.medium {
+            background: linear-gradient(135deg, #95a5a6, #7f8c8d);
+        }
+        
+        .ability-level.low {
+            background: linear-gradient(135deg, #95a5a6, #7f8c8d);
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .stat-box {
+            text-align: center;
+            padding: 15px 30px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #e94560;
+        }
+        
+        .stat-label {
+            color: #888;
+            font-size: 0.9rem;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 50px;
+            color: #888;
+        }
+        
+        .nav-link {
+            display: inline-block;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #e94560, #f39c12);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: transform 0.2s;
+        }
+        
+        .nav-link:hover {
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏆 Ability Arena DB 🏆</h1>
+        <p class="subtitle">Top 3 Players Match List</p>
+        
+        <a href="popular.html" class="nav-link" style="display: block; text-align: center; margin-bottom: 20px;">🔥 Popular Combinations 🔥</a>
+        
+        <div class="stats">
+            <div class="stat-box">
+                <div class="stat-value" id="totalMatches">0</div>
+                <div class="stat-label">Matches</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value" id="totalHeroes">0</div>
+                <div class="stat-label">Heroes</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value" id="totalAbilities">0</div>
+                <div class="stat-label">Abilities</div>
+            </div>
+        </div>
+        
+        <div class="pagination" style="display: flex; justify-content: center; gap: 10px; margin: 20px 0; flex-wrap: wrap;">
+            <button id="prevBtn" onclick="changePage(-1)" style="padding: 10px 20px; background: #e94560; color: white; border: none; border-radius: 5px; cursor: pointer;">← Prev</button>
+            <span id="pageInfo" style="padding: 10px; color: #888;">Page 1</span>
+            <button id="nextBtn" onclick="changePage(1)" style="padding: 10px 20px; background: #e94560; color: white; border: none; border-radius: 5px; cursor: pointer;">Next →</button>
+        </div>
+        
+        <div id="matchesContainer">
+            <div class="loading">Loading data...</div>
+        </div>
+        
+        <div class="pagination" style="display: flex; justify-content: center; gap: 10px; margin: 20px 0; flex-wrap: wrap;">
+            <button id="prevBtn2" onclick="changePage(-1)" style="padding: 10px 20px; background: #e94560; color: white; border: none; border-radius: 5px; cursor: pointer;">← Prev</button>
+            <button id="nextBtn2" onclick="changePage(1)" style="padding: 10px 20px; background: #e94560; color: white; border: none; border-radius: 5px; cursor: pointer;">Next →</button>
+        </div>
+    </div>
+
+    <script>
+        let allData = [];
+        let currentPage = 1;
+        const matchesPerPage = 5;
+        
+        // Load and display data
+        async function loadData() {
+            try {
+                const response = await fetch('all_top3_data.json');
+                allData = await response.json();
+                
+                document.getElementById('totalMatches').textContent = allData.length;
+                
+                renderPage(currentPage);
+                updateStats();
+                
+            } catch (error) {
+                console.error('Error loading data:', error);
+                document.getElementById('matchesContainer').innerHTML = 
+                    '<div class="loading">Error loading data. Make sure the JSON file exists.</div>';
+            }
+        }
+        
+        function renderPage(page) {
+            const container = document.getElementById('matchesContainer');
+            container.innerHTML = '';
+            
+            const start = (page - 1) * matchesPerPage;
+            const end = start + matchesPerPage;
+            const pageData = allData.slice(start, end);
+            
+            pageData.forEach((match, index) => {
+                    
+                    const card = document.createElement('div');
+                    card.className = 'match-card';
+                    
+                    let playersHTML = '';
+                    match.players.forEach(player => {
+                        let heroesHTML = '';
+                        player.heroes.forEach(hero => {
+                            let abilitiesHTML = '';
+                            hero.abilities.forEach(ability => {
+                                const level = parseInt(ability.level) || 0;
+                                let levelClass = 'low';
+                                if (level >= 9) levelClass = 'max';
+                                else if (level >= 6) levelClass = 'high';
+                                else if (level >= 3) levelClass = 'medium';
+                                
+                                abilitiesHTML += `
+                                    <div class="ability-item">
+                                        <img src="images/abilities/${getAbilityImageName(ability.icon)}.png" alt="${ability.name}" class="ability-image">
+                                        <div class="ability-info">
+                                            <div class="ability-name" title="${ability.name}">${formatAbilityName(ability.name)}</div>
+                                        </div>
+                                        <span class="ability-level ${levelClass}">${ability.level}</span>
+                                    </div>
+                                `;
+                            });
+                            
+                            heroesHTML += `
+                                <div class="god-card">
+                                    <div class="god-header">
+                                        <img src="images/heroes/${hero.name}.png" alt="${hero.name}" class="god-image">
+                                        <span class="god-name">${formatGodName(hero.name)} (${getTierLabel(hero.tier)})</span>
+                                    </div>
+                                    <div class="abilities-list">
+                                        ${abilitiesHTML}
+                                    </div>
+                                </div>
+                            `;
+                        });
+                        
+                        // Place badge colors
+                        let placeColor = '#e94560';
+                        if (player.place === 2) placeColor = '#f39c12';
+                        if (player.place === 3) placeColor = '#3498db';
+                        
+                        playersHTML += `
+                            <div class="player-section" style="margin-bottom: 20px; padding: 15px; background: rgba(0,0,0,0.2); border-radius: 10px;">
+                                <div class="player-header" style="display: flex; justify-content: space-between; margin-bottom: 15px;">
+                                    <div>
+                                        <span class="place-badge" style="background: ${placeColor}; padding: 5px 12px; border-radius: 15px; font-weight: bold;">#${player.place}</span>
+                                        <span class="player-name" style="font-size: 1.2rem; font-weight: bold; margin-left: 10px;">${player.username}</span>
+                                    </div>
+                                        <img src="images/gods/${player.god}.png" alt="${player.god}" style="height: 50px; vertical-align: middle; border-radius: 8px; margin-right: 10px;"><span style="color:#fff; font-size:1.1rem; font-weight:bold;">${formatGodName(player.god)}</span>
+                                </div>
+                                <div class="gods-grid">
+                                    ${heroesHTML}
+                                </div>
+                            </div>
+                        `;
+                    });
+                    
+                    card.innerHTML = `
+                        <div class="match-header">
+                            <div class="match-id">#${match.match_id}</div>
+                        </div>
+                        <div class="players-container">
+                            ${playersHTML}
+                        </div>
+                    `;
+                    
+                    container.appendChild(card);
+                });
+                
+                document.getElementById('pageInfo').textContent = 'Page ' + page + ' / ' + Math.ceil(allData.length / matchesPerPage);
+            document.getElementById('prevBtn').disabled = page <= 1;
+            document.getElementById('prevBtn2').disabled = page <= 1;
+            document.getElementById('nextBtn').disabled = page >= Math.ceil(allData.length / matchesPerPage);
+            document.getElementById('nextBtn2').disabled = page >= Math.ceil(allData.length / matchesPerPage);
+        }
+        
+        function updateStats() {
+            let totalGods = 0;
+            let totalAbilities = 0;
+            
+            allData.forEach((match) => {
+                match.players.forEach(player => {
+                    totalGods += player.heroes.length;
+                    player.heroes.forEach(hero => {
+                        totalAbilities += hero.abilities.length;
+                    });
+                });
+            });
+            
+            document.getElementById('totalHeroes').textContent = totalGods;
+            document.getElementById('totalAbilities').textContent = totalAbilities;
+        }
+        
+        function changePage(delta) {
+            const totalPages = Math.ceil(allData.length / matchesPerPage);
+            const newPage = currentPage + delta;
+            if (newPage >= 1 && newPage <= totalPages) {
+                currentPage = newPage;
+                renderPage(currentPage);
+                window.scrollTo(0, 0);
+            }
+        }
+        
+        function formatGodName(name) {
+            return name.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+        }
+        
+        function getAbilityImageName(name) {
+            // Mapping from API icon names to image file names
+            const mapping = {
+                'custom_luna_lunar_blessing': 'luna_lunar_blessing',
+                'custom_zuus_static_field': 'zuus_static_field'
+            };
+            
+            return mapping[name] || name;
+        }
+        
+        function formatAbilityName(name) {
+            // List of hero names to check as prefixes
+            const heroes = ['abaddon', 'abyssal_underlord', 'alchemist', 'ancient_apparition', 'antimage', 'arc_warden', 'axe', 'bane', 'batrider', 'beastmaster', 'bloodseeker', 'bounty_hunter', 'brewmaster', 'bristleback', 'broodmother', 'centaur', 'chaos_knight', 'chen', 'clinkz', 'crystal_maiden', 'dark_seer', 'dark_willow', 'dawnbreaker', 'dazzle', 'death_prophet', 'disruptor', 'doom_bringer', 'dragon_knight', 'drow_ranger', 'earth_spirit', 'earthshaker', 'elder_titan', 'ember_spirit', 'enchantress', 'enigma', 'faceless_void', 'furion', 'grimstroke', 'gyrocopter', 'hoodwink', 'huskar', 'invoker', 'jakiro', 'juggernaut', 'keeper_of_the_light', 'kez', 'kunkka', 'largo', 'legion_commander', 'leshrac', 'lich', 'life_stealer', 'lina', 'lion', 'lone_druid', 'luna', 'lycan', 'magnataur', 'marci', 'mars', 'medusa', 'meepo', 'mirana', 'monkey_king', 'morphling', 'muerta', 'naga_siren', 'necrolyte', 'nevermore', 'night_stalker', 'nyx_assassin', 'obsidian_destroyer', 'ogre_magi', 'omniknight', 'oracle', 'pangolier', 'phantom_assassin', 'phantom_lancer', 'phoenix', 'primal_beast', 'puck', 'pudge', 'pugna', 'queenofpain', 'rattletrap', 'razor', 'riki', 'ringmaster', 'rubick', 'sand_king', 'shadow_demon', 'shadow_shaman', 'shredder', 'silencer', 'skeleton_king', 'skywrath_mage', 'slardar', 'snapfire', 'sniper', 'spectre', 'spirit_breaker', 'storm_spirit', 'sven', 'techies', 'templar_assassin', 'terrorblade', 'tidehunter', 'tinker', 'tiny', 'treant', 'troll_warlord', 'tusk', 'undying', 'ursa', 'vengefulspirit', 'venomancer', 'viper', 'visage', 'void_spirit', 'warlock', 'weaver', 'windrunner', 'winter_wyvern', 'wisp', 'witch_doctor', 'zuus'];
+            
+            // Remove custom_ prefix
+            name = name.replace(/^custom_/, '');
+            
+            // Try to match and remove hero name prefix
+            for (let hero of heroes) {
+                if (name.startsWith(hero + '_')) {
+                    name = name.substring(hero.length + 1);
+                    break;
+                }
+            }
+            
+            // Replace underscores with spaces and capitalize
+            name = name.replace(/_/g, ' ');
+            return name.replace(/\b\w/g, l => l.toUpperCase());
+        }
+        
+        function getTierLabel(tier) {
+            const tierMap = {1: 'S', 2: 'A', 3: 'B', 4: 'C', 5: 'D'};
+            return tierMap[tier] || '?';
+        }
+        
+        // Load data on page load
+        loadData();
+    </script>
+</body>
+</html>

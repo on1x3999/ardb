@@ -1,0 +1,27 @@
+# Ignore Python files
+*.py
+*.pyc
+__pycache__/
+
+# Ignore data files that are not needed for website
+abilities.json
+ability_details.json
+all_matches_progress.json
+debug_gods.json
+leaderboard_data.json
+matches.json
+page_html.html
+player_links.json
+winner_abilities.json
+winners_api.json
+winners_final.json
+winners_with_images.json
+winners.json
+
+# Ignore other files
+test_img.png
+test.txt
+
+# OS files
+.DS_Store
+Thumbs.db
