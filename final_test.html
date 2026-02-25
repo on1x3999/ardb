@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Final Verification Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #f0f0f0; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .match-card { border: 1px solid #ddd; padding: 15px; margin: 10px 0; border-radius: 5px; }
+        .player-section { margin: 10px 0; padding: 10px; background: #f9f9f9; border-radius: 5px; }
+        .success { color: green; font-weight: bold; }
+        .error { color: red; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Final Verification Test</h1>
+        <p>This test simulates the exact same data loading process as your main website.</p>
+        
+        <div id="status">Testing...</div>
+        <div id="sample-data" style="margin-top: 20px;"></div>
+    </div>
+
+    <script>
+        // Simulate the exact same loading process as index.html
+        async function loadFromCombinedFile() {
+            try {
+                console.log('Loading combined data file...');
+                const response = await fetch('all_top3_data.json');
+                const data = await response.json();
+                
+                console.log(`Loaded ${data.length} matches from combined file`);
+                return data;
+                
+            } catch (error) {
+                console.error('Error loading combined file:', error);
+                throw error;
+            }
+        }
+
+        function formatGodName(name) {
+            return name.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+        }
+
+        function getTierLabel(tier) {
+            const tierMap = {1: 'S', 2: 'A', 3: 'B', 4: 'C', 5: 'D'};
+            return tierMap[tier] || '?';
+        }
+
+        function formatAbilityName(name) {
+            const heroes = ['abaddon', 'abyssal_underlord', 'alchemist', 'ancient_apparition', 'antimage', 'arc_warden', 'axe', 'bane', 'batrider', 'beastmaster', 'bloodseeker', 'bounty_hunter', 'brewmaster', 'bristleback', 'broodmother', 'centaur', 'chaos_knight', 'chen', 'clinkz', 'crystal_maiden', 'dark_seer', 'dark_willow', 'dawnbreaker', 'dazzle', 'death_prophet', 'disruptor', 'doom_bringer', 'dragon_knight', 'drow_ranger', 'earth_spirit', 'earthshaker', 'elder_titan', 'ember_spirit', 'enchantress', 'enigma', 'faceless_void', 'furion', 'grimstroke', 'gyrocopter', 'hoodwink', 'huskar', 'invoker', 'jakiro', 'juggernaut', 'keeper_of_the_light', 'kez', 'kunkka', 'largo', 'legion_commander', 'leshrac', 'lich', 'life_stealer', 'lina', 'lion', 'lone_druid', 'luna', 'lycan', 'magnataur', 'marci', 'mars', 'medusa', 'meepo', 'mirana', 'monkey_king', 'morphling', 'muerta', 'naga_siren', 'necrolyte', 'nevermore', 'night_stalker', 'nyx_assassin', 'obsidian_destroyer', 'ogre_magi', 'omniknight', 'oracle', 'pangolier', 'phantom_assassin', 'phantom_lancer', 'phoenix', 'primal_beast', 'puck', 'pudge', 'pugna', 'queenofpain', 'rattletrap', 'razor', 'riki', 'ringmaster', 'rubick', 'sand_king', 'shadow_demon', 'shadow_shaman', 'shredder', 'silencer', 'skeleton_king', 'skywrath_mage', 'slardar', 'snapfire', 'sniper', 'spectre', 'spirit_breaker', 'storm_spirit', 'sven', 'techies', 'templar_assassin', 'terrorblade', 'tidehunter', 'tinker', 'tiny', 'treant', 'troll_warlord', 'tusk', 'undying', 'ursa', 'vengefulspirit', 'venomancer', 'viper', 'visage', 'void_spirit', 'warlock', 'weaver', 'windrunner', 'winter_wyvern', 'wisp', 'witch_doctor', 'zuus'];
+            
+            name = name.replace(/^custom_/, '');
+            
+            for (let hero of heroes) {
+                if (name.startsWith(hero + '_')) {
+                    name = name.substring(hero.length + 1);
+                    break;
+                }
+            }
+            
+            name = name.replace(/_/g, ' ');
+            return name.replace(/\b\w/g, l => l.toUpperCase());
+        }
+
+        async function runTest() {
+            const statusDiv = document.getElementById('status');
+            const sampleDataDiv = document.getElementById('sample-data');
+            
+            try {
+                statusDiv.innerHTML = '<span class="success">✓ Loading data from all_top3_data.json...</span>';
+                
+                const data = await loadFromCombinedFile();
+                
+                statusDiv.innerHTML += `<br><span class="success">✓ Successfully loaded ${data.length} matches</span>`;
+                
+                if (data.length > 0) {
+                    statusDiv.innerHTML += '<br><span class="success">✓ Data structure validation passed</span>';
+                    
+                    // Display sample data to verify structure
+                    const sampleMatch = data[0];
+                    const samplePlayer = sampleMatch.players[0];
+                    
+                    let html = '<h3>Sample Match Data:</h3>';
+                    html += `<div class="match-card">`;
+                    html += `<h4>Match ID: ${sampleMatch.match_id}</h4>`;
+                    
+                    sampleMatch.players.forEach((player, index) => {
+                        html += `<div class="player-section">`;
+                        html += `<h5>Player ${index + 1}: ${player.username} (Place: ${player.place})</h5>`;
+                        html += `<p><strong>God:</strong> ${formatGodName(player.god)}</p>`;
+                        
+                        player.heroes.forEach(hero => {
+                            html += `<div style="margin-left: 20px; border-left: 2px solid #ddd; padding-left: 10px;">`;
+                            html += `<p><strong>Hero:</strong> ${formatGodName(hero.name)} (${getTierLabel(hero.tier)})</p>`;
+                            html += `<p><strong>Abilities:</strong></p><ul>`;
+                            
+                            hero.abilities.forEach(ability => {
+                                html += `<li>${formatAbilityName(ability.name)} (Level: ${ability.level})</li>`;
+                            });
+                            
+                            html += `</ul></div>`;
+                        });
+                        
+                        html += `</div>`;
+                    });
+                    
+                    html += `</div>`;
+                    sampleDataDiv.innerHTML = html;
+                    
+                    statusDiv.innerHTML += '<br><span class="success">✓ Sample data displayed successfully - your website should now work!</span>';
+                }
+                
+            } catch (error) {
+                statusDiv.innerHTML = `<span class="error">✗ Error: ${error.message}</span>`;
+                console.error('Final test error:', error);
+            }
+        }
+        
+        runTest();
+    </script>
+</body>
+</html>

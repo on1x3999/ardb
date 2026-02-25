@@ -282,9 +282,8 @@
         // Load and display data
         async function loadData() {
             try {
-                // Always load from data directory structure
-                console.log('Loading data from data directory...');
-                const data = await loadFromDataDirectory();
+                console.log('Loading data from all_top3_data.json...');
+                const data = await loadFromCombinedFile();
                 
                 allData = data;
                 document.getElementById('totalMatches').textContent = allData.length;
@@ -295,50 +294,22 @@
             } catch (error) {
                 console.error('Error loading data:', error);
                 document.getElementById('matchesContainer').innerHTML = 
-                    '<div class="loading">Error loading data. Make sure the data files exist.</div>';
+                    '<div class="loading">Error loading data. Make sure all_top3_data.json exists.</div>';
             }
         }
         
-        // Load data from data directory structure
-        async function loadFromDataDirectory() {
-            const allMatches = [];
-            let totalMatches = 0;
-            
+        // Load data from combined file
+        async function loadFromCombinedFile() {
             try {
-                // Get list of dates from data directory
-                const datesResponse = await fetch('data/');
-                const datesText = await datesResponse.text();
+                console.log('Loading combined data file...');
+                const response = await fetch('all_top3_data.json');
+                const data = await response.json();
                 
-                // Parse directory listing to get dates
-                const dateMatches = datesText.match(/href="([^"]+)"/g);
-                const dates = dateMatches ? dateMatches.map(match => {
-                    const date = match.replace('href="', '').replace('"', '');
-                    return date.replace('/', '');
-                }).filter(date => date && date.length === 10) : [];
-                
-                console.log('Found dates:', dates);
-                
-                // Load matches from each date
-                for (const date of dates) {
-                    try {
-                        const response = await fetch(`data/${date}/matches.json`);
-                        const data = await response.json();
-                        const matches = data.matches || [];
-                        
-                        allMatches.push(...matches);
-                        totalMatches += matches.length;
-                        
-                        console.log(`Loaded ${matches.length} matches from ${date}`);
-                    } catch (e) {
-                        console.warn(`Could not load data for ${date}:`, e);
-                    }
-                }
-                
-                console.log(`Total matches loaded: ${allMatches.length}`);
-                return allMatches;
+                console.log(`Loaded ${data.length} matches from combined file`);
+                return data;
                 
             } catch (error) {
-                console.error('Error loading from data directory:', error);
+                console.error('Error loading combined file:', error);
                 throw error;
             }
         }

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Debug Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .log { background: #f0f0f0; padding: 10px; margin: 10px 0; border-radius: 5px; }
+        .error { color: red; }
+        .success { color: green; }
+    </style>
+</head>
+<body>
+    <h1>Debug Test for Match Data</h1>
+    <div id="output"></div>
+    
+    <script>
+        function log(message, type = 'info') {
+            const div = document.createElement('div');
+            div.className = 'log ' + type;
+            div.innerHTML = new Date().toLocaleTimeString() + ': ' + message;
+            document.getElementById('output').appendChild(div);
+        }
+        
+        async function debugTest() {
+            log('Starting debug test...');
+            
+            try {
+                log('Attempting to fetch all_top3_data.json...');
+                const response = await fetch('all_top3_data.json');
+                log('Fetch response status: ' + response.status);
+                
+                if (!response.ok) {
+                    throw new Error('HTTP error ' + response.status);
+                }
+                
+                log('Parsing JSON...');
+                const data = await response.json();
+                log('Successfully parsed JSON. Total matches: ' + data.length, 'success');
+                
+                if (data.length > 0) {
+                    const firstMatch = data[0];
+                    log('First match ID: ' + firstMatch.match_id);
+                    log('Number of players: ' + firstMatch.players.length);
+                    
+                    if (firstMatch.players.length > 0) {
+                        const firstPlayer = firstMatch.players[0];
+                        log('First player: ' + firstPlayer.username + ' (place: ' + firstPlayer.place + ')');
+                        log('God: ' + firstPlayer.god);
+                        
+                        if (firstPlayer.heroes.length > 0) {
+                            const firstHero = firstPlayer.heroes[0];
+                            log('First hero: ' + firstHero.name + ' (tier: ' + firstHero.tier + ')');
+                            log('Number of abilities: ' + firstHero.abilities.length);
+                            
+                            if (firstHero.abilities.length > 0) {
+                                const firstAbility = firstHero.abilities[0];
+                                log('First ability: ' + firstAbility.name + ' (level: ' + firstAbility.level + ')');
+                            }
+                        }
+                    }
+                }
+                
+                log('Data structure validation complete - all looks good!', 'success');
+                
+            } catch (error) {
+                log('Error during debug test: ' + error.message, 'error');
+                console.error('Debug test error:', error);
+            }
+        }
+        
+        debugTest();
+    </script>
+</body>
+</html>
