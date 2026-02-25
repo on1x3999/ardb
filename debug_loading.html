@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Loading Issues</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #f0f0f0; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; }
+        .log { background: #f8f8f8; padding: 10px; border: 1px solid #ddd; margin: 10px 0; font-family: monospace; white-space: pre-wrap; }
+        .success { color: green; }
+        .error { color: red; }
+        .info { color: blue; }
+        .warning { color: orange; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Debug Loading Issues</h1>
+        <p>This page helps debug what's happening with data loading.</p>
+        
+        <div id="status" class="log">Starting debug...</div>
+        
+        <button onclick="runFullDebug()">Run Full Debug</button>
+        <button onclick="clearLog()">Clear Log</button>
+    </div>
+
+    <script>
+        const statusDiv = document.getElementById('status');
+        
+        function log(message, type = 'info') {
+            const span = document.createElement('span');
+            span.className = type;
+            span.textContent = message + '\n';
+            statusDiv.appendChild(span);
+            console.log(message);
+        }
+        
+        async function runFullDebug() {
+            statusDiv.innerHTML = '';
+            log('=== Starting Full Debug ===', 'info');
+            
+            // Test 1: Check if files exist
+            log('Test 1: Checking file existence...', 'info');
+            await testFileExistence();
+            
+            // Test 2: Check network requests
+            log('\nTest 2: Testing network requests...', 'info');
+            await testNetworkRequests();
+            
+            // Test 3: Check CORS
+            log('\nTest 3: Testing CORS...', 'info');
+            await testCORS();
+            
+            // Test 4: Test actual loading
+            log('\nTest 4: Testing actual loading...', 'info');
+            await testActualLoading();
+            
+            log('\n=== Debug Complete ===', 'info');
+        }
+        
+        async function testFileExistence() {
+            const today = new Date().toISOString().split('T')[0];
+            const yesterday = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+            
+            const filesToTest = [
+                `data/${today}/matches_part_1.json`,
+                `data/${yesterday}/matches_part_1.json`,
+                'all_top3_data.json'
+            ];
+            
+            for (const file of filesToTest) {
+                try {
+                    const response = await fetch(file, { method: 'HEAD' });
+                    if (response.ok) {
+                        log(`✓ ${file} exists (HTTP ${response.status})`, 'success');
+                    } else {
+                        log(`✗ ${file} not found (HTTP ${response.status})`, 'error');
+                    }
+                } catch (error) {
+                    log(`✗ ${file} error: ${error.message}`, 'error');
+                }
+            }
+        }
+        
+        async function testNetworkRequests() {
+            const today = new Date().toISOString().split('T')[0];
+            const yesterday = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+            
+            const filesToTest = [
+                `data/${today}/matches_part_1.json`,
+                `data/${yesterday}/matches_part_1.json`,
+                'all_top3_data.json'
+            ];
+            
+            for (const file of filesToTest) {
+                try {
+                    log(`Testing network request for: ${file}`, 'info');
+                    
+                    const controller = new AbortController();
+                    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+                    
+                    const response = await fetch(file, { 
+                        signal: controller.signal,
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        }
+                    });
+                    
+                    clearTimeout(timeoutId);
+                    
+                    log(`Response status: ${response.status}`, response.ok ? 'success' : 'error');
+                    log(`Response headers:`, 'info');
+                    
+                    response.headers.forEach((value, key) => {
+                        log(`  ${key}: ${value}`, 'info');
+                    });
+                    
+                    if (response.ok) {
+                        try {
+                            const data = await response.json();
+                            log(`✓ Successfully parsed JSON: ${data.length} items`, 'success');
+                        } catch (parseError) {
+                            log(`✗ JSON parse error: ${parseError.message}`, 'error');
+                        }
+                    }
+                    
+                } catch (error) {
+                    if (error.name === 'AbortError') {
+                        log(`✗ Request timeout for ${file}`, 'error');
+                    } else {
+                        log(`✗ Network error for ${file}: ${error.message}`, 'error');
+                    }
+                }
+            }
+        }
+        
+        async function testCORS() {
+            log('Testing CORS by checking response headers...', 'info');
+            
+            try {
+                const response = await fetch('all_top3_data.json', { method: 'HEAD' });
+                const corsHeaders = [
+                    'Access-Control-Allow-Origin',
+                    'Access-Control-Allow-Methods', 
+                    'Access-Control-Allow-Headers',
+                    'Access-Control-Expose-Headers'
+                ];
+                
+                corsHeaders.forEach(header => {
+                    const value = response.headers.get(header);
+                    if (value) {
+                        log(`✓ ${header}: ${value}`, 'success');
+                    } else {
+                        log(`- ${header}: not present`, 'warning');
+                    }
+                });
+                
+            } catch (error) {
+                log(`✗ CORS test error: ${error.message}`, 'error');
+            }
+        }
+        
+        async function testActualLoading() {
+            log('Testing the actual loading function from index.html...', 'info');
+            
+            try {
+                const data = await loadFromSplitFiles();
+                log(`✓ Successfully loaded ${data.length} matches`, 'success');
+            } catch (error) {
+                log(`✗ Loading failed: ${error.message}`, 'error');
+            }
+        }
+        
+        // Load data from split files (copied from index.html)
+        async function loadFromSplitFiles() {
+            try {
+                console.log('Loading data from split files...');
+                
+                // Get today's date for the data directory
+                const today = new Date().toISOString().split('T')[0];
+                const dataDir = `data/${today}/`;
+                
+                // Also try yesterday's date as fallback
+                const yesterday = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+                const yesterdayDir = `data/${yesterday}/`;
+                
+                // Try to load from split files first
+                const data = [];
+                let part = 1;
+                let hasMore = true;
+                let currentDir = dataDir;
+                
+                // Try today's directory first, then yesterday's if that fails
+                for (let attempt = 0; attempt < 2; attempt++) {
+                    if (attempt === 1) {
+                        currentDir = yesterdayDir;
+                        console.log(`Trying yesterday's directory: ${yesterdayDir}`);
+                    }
+                    
+                    part = 1;
+                    hasMore = true;
+                    
+                    while (hasMore) {
+                        try {
+                            const filename = `${currentDir}matches_part_${part}.json`;
+                            console.log(`Loading ${filename}...`);
+                            
+                            const response = await fetch(filename);
+                            if (!response.ok) {
+                                // If we can't load the first part, try the next directory
+                                if (response.status === 404 && part === 1) {
+                                    hasMore = false;
+                                    break;
+                                }
+                                // If we can't load subsequent parts, we're done with this directory
+                                if (response.status === 404) {
+                                    hasMore = false;
+                                    break;
+                                }
+                                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                            }
+                            
+                            const partData = await response.json();
+                            data.push(...partData);
+                            console.log(`Loaded part ${part}: ${partData.length} matches from ${currentDir}`);
+                            part++;
+                            
+                        } catch (error) {
+                            console.warn(`Could not load part ${part} from ${currentDir}:`, error.message);
+                            hasMore = false;
+                        }
+                    }
+                    
+                    // If we found data in this directory, stop trying
+                    if (data.length > 0) {
+                        break;
+                    }
+                }
+                
+                if (data.length === 0) {
+                    throw new Error('No split data files found in today or yesterday, trying combined file...');
+                }
+                
+                console.log(`Loaded ${data.length} matches from ${part - 1} files`);
+                return data;
+                
+            } catch (error) {
+                console.error('Error loading split files:', error);
+                
+                // Fallback to combined file
+                console.log('Attempting to load combined file as fallback...');
+                try {
+                    const response = await fetch('all_top3_data.json');
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                    }
+                    
+                    const data = await response.json();
+                    console.log(`Loaded ${data.length} matches from combined file`);
+                    return data;
+                    
+                } catch (fallbackError) {
+                    console.error('Error loading combined file:', fallbackError);
+                    throw new Error('Could not load data from either split files or combined file');
+                }
+            }
+        }
+        
+        function clearLog() {
+            statusDiv.innerHTML = '';
+        }
+        
+        // Run debug automatically on load
+        window.onload = runFullDebug;
+    </script>
+</body>
+</html>
