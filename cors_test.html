@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CORS Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .result { padding: 10px; margin: 10px 0; border-radius: 5px; }
+        .success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+    </style>
+</head>
+<body>
+    <h1>CORS Test for all_top3_data.json</h1>
+    <div id="output"></div>
+    
+    <script>
+        function log(message, type = 'info') {
+            const div = document.createElement('div');
+            div.className = 'result ' + type;
+            div.innerHTML = new Date().toLocaleTimeString() + ': ' + message;
+            document.getElementById('output').appendChild(div);
+        }
+        
+        async function testCORS() {
+            log('Testing CORS access to all_top3_data.json...');
+            
+            try {
+                // Test with fetch
+                log('Attempting fetch...');
+                const response = await fetch('all_top3_data.json');
+                log('Fetch response status: ' + response.status);
+                
+                if (response.ok) {
+                    log('✓ Fetch successful - no CORS issues detected', 'success');
+                    
+                    // Try to parse JSON
+                    const data = await response.json();
+                    log('✓ JSON parsing successful - ' + data.length + ' matches loaded', 'success');
+                } else {
+                    log('✗ Fetch failed with status: ' + response.status, 'error');
+                }
+                
+            } catch (error) {
+                log('✗ Error: ' + error.message, 'error');
+                
+                // Try alternative method
+                log('Trying XMLHttpRequest as fallback...');
+                try {
+                    const xhr = new XMLHttpRequest();
+                    xhr.open('GET', 'all_top3_data.json', true);
+                    xhr.onreadystatechange = function() {
+                        if (xhr.readyState === 4) {
+                            if (xhr.status === 200) {
+                                log('✓ XMLHttpRequest successful', 'success');
+                                try {
+                                    const data = JSON.parse(xhr.responseText);
+                                    log('✓ JSON parsing successful - ' + data.length + ' matches loaded', 'success');
+                                } catch (parseError) {
+                                    log('✗ JSON parsing failed: ' + parseError.message, 'error');
+                                }
+                            } else {
+                                log('✗ XMLHttpRequest failed with status: ' + xhr.status, 'error');
+                            }
+                        }
+                    };
+                    xhr.send();
+                } catch (xhrError) {
+                    log('✗ XMLHttpRequest also failed: ' + xhrError.message, 'error');
+                }
+            }
+        }
+        
+        testCORS();
+    </script>
+</body>
+</html>
