@@ -1,5 +1,5 @@
 # Ignore the large combined data file to prevent slow commits
-all_top3_data.json
+
 
 # Optional: Also ignore backup files
 *backup*.json
