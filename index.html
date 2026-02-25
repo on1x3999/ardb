@@ -282,8 +282,8 @@
         // Load and display data
         async function loadData() {
             try {
-                console.log('Loading data from all_top3_data.json...');
-                const data = await loadFromCombinedFile();
+                console.log('Loading data from split files...');
+                const data = await loadFromSplitFiles();
                 
                 allData = data;
                 document.getElementById('totalMatches').textContent = allData.length;
@@ -294,23 +294,76 @@
             } catch (error) {
                 console.error('Error loading data:', error);
                 document.getElementById('matchesContainer').innerHTML = 
-                    '<div class="loading">Error loading data. Make sure all_top3_data.json exists.</div>';
+                    '<div class="loading">Error loading data. Please refresh the page or try again later.</div>';
             }
         }
         
-        // Load data from combined file
-        async function loadFromCombinedFile() {
+        // Load data from split files
+        async function loadFromSplitFiles() {
             try {
-                console.log('Loading combined data file...');
-                const response = await fetch('all_top3_data.json');
-                const data = await response.json();
+                console.log('Loading data from split files...');
                 
-                console.log(`Loaded ${data.length} matches from combined file`);
+                // Get today's date for the data directory
+                const today = new Date().toISOString().split('T')[0];
+                const dataDir = `data/${today}/`;
+                
+                // Try to load from split files first
+                const data = [];
+                let part = 1;
+                let hasMore = true;
+                
+                while (hasMore) {
+                    try {
+                        const filename = `${dataDir}matches_part_${part}.json`;
+                        console.log(`Loading ${filename}...`);
+                        
+                        const response = await fetch(filename);
+                        if (!response.ok) {
+                            // If we can't load the next part, we're done
+                            if (response.status === 404) {
+                                hasMore = false;
+                                break;
+                            }
+                            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                        }
+                        
+                        const partData = await response.json();
+                        data.push(...partData);
+                        console.log(`Loaded part ${part}: ${partData.length} matches`);
+                        part++;
+                        
+                    } catch (error) {
+                        console.warn(`Could not load part ${part}:`, error.message);
+                        hasMore = false;
+                    }
+                }
+                
+                if (data.length === 0) {
+                    throw new Error('No split data files found, trying combined file...');
+                }
+                
+                console.log(`Loaded ${data.length} matches from ${part - 1} files`);
                 return data;
                 
             } catch (error) {
-                console.error('Error loading combined file:', error);
-                throw error;
+                console.error('Error loading split files:', error);
+                
+                // Fallback to combined file
+                console.log('Attempting to load combined file as fallback...');
+                try {
+                    const response = await fetch('all_top3_data.json');
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                    }
+                    
+                    const data = await response.json();
+                    console.log(`Loaded ${data.length} matches from combined file`);
+                    return data;
+                    
+                } catch (fallbackError) {
+                    console.error('Error loading combined file:', fallbackError);
+                    throw new Error('Could not load data from either split files or combined file');
+                }
             }
         }
         
