@@ -282,19 +282,9 @@
         // Load and display data
         async function loadData() {
             try {
-                // Try to load combined data first
-                let response;
-                let data;
-                
-                try {
-                    response = await fetch('all_top3_data.json');
-                    data = await response.json();
-                    console.log('Loaded combined data file');
-                } catch (e) {
-                    // If combined file doesn't exist, load from data directory
-                    console.log('Combined file not found, loading from data directory...');
-                    data = await loadFromDataDirectory();
-                }
+                // Always load from data directory structure
+                console.log('Loading data from data directory...');
+                const data = await loadFromDataDirectory();
                 
                 allData = data;
                 document.getElementById('totalMatches').textContent = allData.length;
