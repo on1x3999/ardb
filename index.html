@@ -307,39 +307,65 @@
                 const today = new Date().toISOString().split('T')[0];
                 const dataDir = `data/${today}/`;
                 
+                // Also try yesterday's date as fallback
+                const yesterday = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+                const yesterdayDir = `data/${yesterday}/`;
+                
                 // Try to load from split files first
                 const data = [];
                 let part = 1;
                 let hasMore = true;
+                let currentDir = dataDir;
                 
-                while (hasMore) {
-                    try {
-                        const filename = `${dataDir}matches_part_${part}.json`;
-                        console.log(`Loading ${filename}...`);
-                        
-                        const response = await fetch(filename);
-                        if (!response.ok) {
-                            // If we can't load the next part, we're done
-                            if (response.status === 404) {
-                                hasMore = false;
-                                break;
+                // Try today's directory first, then yesterday's if that fails
+                for (let attempt = 0; attempt < 2; attempt++) {
+                    if (attempt === 1) {
+                        currentDir = yesterdayDir;
+                        console.log(`Trying yesterday's directory: ${yesterdayDir}`);
+                    }
+                    
+                    part = 1;
+                    hasMore = true;
+                    
+                    while (hasMore) {
+                        try {
+                            const filename = `${currentDir}matches_part_${part}.json`;
+                            console.log(`Loading ${filename}...`);
+                            
+                            const response = await fetch(filename);
+                            if (!response.ok) {
+                                // If we can't load the first part, try the next directory
+                                if (response.status === 404 && part === 1) {
+                                    hasMore = false;
+                                    break;
+                                }
+                                // If we can't load subsequent parts, we're done with this directory
+                                if (response.status === 404) {
+                                    hasMore = false;
+                                    break;
+                                }
+                                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
                             }
-                            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                            
+                            const partData = await response.json();
+                            data.push(...partData);
+                            console.log(`Loaded part ${part}: ${partData.length} matches from ${currentDir}`);
+                            part++;
+                            
+                        } catch (error) {
+                            console.warn(`Could not load part ${part} from ${currentDir}:`, error.message);
+                            hasMore = false;
                         }
-                        
-                        const partData = await response.json();
-                        data.push(...partData);
-                        console.log(`Loaded part ${part}: ${partData.length} matches`);
-                        part++;
-                        
-                    } catch (error) {
-                        console.warn(`Could not load part ${part}:`, error.message);
-                        hasMore = false;
+                    }
+                    
+                    // If we found data in this directory, stop trying
+                    if (data.length > 0) {
+                        break;
                     }
                 }
                 
                 if (data.length === 0) {
-                    throw new Error('No split data files found, trying combined file...');
+                    throw new Error('No split data files found in today or yesterday, trying combined file...');
                 }
                 
                 console.log(`Loaded ${data.length} matches from ${part - 1} files`);

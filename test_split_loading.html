@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Split File Loading</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #f0f0f0; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; }
+        .log { background: #f8f8f8; padding: 10px; border: 1px solid #ddd; margin: 10px 0; font-family: monospace; white-space: pre-wrap; }
+        .success { color: green; }
+        .error { color: red; }
+        .info { color: blue; }
+        .test-result { margin: 10px 0; padding: 10px; border-radius: 4px; }
+        .test-pass { background: #d4edda; border: 1px solid #c3e6cb; color: #155724; }
+        .test-fail { background: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Test Split File Loading</h1>
+        <p>This page tests if the split data files can be loaded correctly.</p>
+        
+        <div id="status" class="log">Testing...</div>
+        
+        <button onclick="testTodayFiles()">Test Today's Files</button>
+        <button onclick="testYesterdayFiles()">Test Yesterday's Files</button>
+        <button onclick="testCombinedFile()">Test Combined File</button>
+        <button onclick="testFullLoading()">Test Full Loading Logic</button>
+    </div>
+
+    <script>
+        const statusDiv = document.getElementById('status');
+        
+        function log(message, type = 'info') {
+            const span = document.createElement('span');
+            span.className = type;
+            span.textContent = message + '\n';
+            statusDiv.appendChild(span);
+            console.log(message);
+        }
+        
+        function addResult(message, isSuccess) {
+            const div = document.createElement('div');
+            div.className = `test-result ${isSuccess ? 'test-pass' : 'test-fail'}`;
+            div.textContent = message;
+            statusDiv.appendChild(div);
+        }
+        
+        async function testTodayFiles() {
+            statusDiv.innerHTML = '';
+            log('Testing today\'s files...', 'info');
+            
+            const today = new Date().toISOString().split('T')[0];
+            const dataDir = `data/${today}/`;
+            
+            try {
+                const filename = `${dataDir}matches_part_1.json`;
+                log(`Testing: ${filename}`, 'info');
+                
+                const response = await fetch(filename);
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const data = await response.json();
+                log(`✓ Successfully loaded ${data.length} matches from today's files`, 'success');
+                addResult(`Today's files: SUCCESS - Loaded ${data.length} matches`, true);
+                
+            } catch (error) {
+                log(`✗ Error loading today's files: ${error.message}`, 'error');
+                addResult(`Today's files: FAILED - ${error.message}`, false);
+            }
+        }
+        
+        async function testYesterdayFiles() {
+            statusDiv.innerHTML = '';
+            log('Testing yesterday\'s files...', 'info');
+            
+            const yesterday = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+            const dataDir = `data/${yesterday}/`;
+            
+            try {
+                const filename = `${dataDir}matches_part_1.json`;
+                log(`Testing: ${filename}`, 'info');
+                
+                const response = await fetch(filename);
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const data = await response.json();
+                log(`✓ Successfully loaded ${data.length} matches from yesterday's files`, 'success');
+                addResult(`Yesterday's files: SUCCESS - Loaded ${data.length} matches`, true);
+                
+            } catch (error) {
+                log(`✗ Error loading yesterday's files: ${error.message}`, 'error');
+                addResult(`Yesterday's files: FAILED - ${error.message}`, false);
+            }
+        }
+        
+        async function testCombinedFile() {
+            statusDiv.innerHTML = '';
+            log('Testing combined file...', 'info');
+            
+            try {
+                const response = await fetch('all_top3_data.json');
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const data = await response.json();
+                log(`✓ Successfully loaded ${data.length} matches from combined file`, 'success');
+                addResult(`Combined file: SUCCESS - Loaded ${data.length} matches`, true);
+                
+            } catch (error) {
+                log(`✗ Error loading combined file: ${error.message}`, 'error');
+                addResult(`Combined file: FAILED - ${error.message}`, false);
+            }
+        }
+        
+        async function testFullLoading() {
+            statusDiv.innerHTML = '';
+            log('Testing full loading logic...', 'info');
+            
+            try {
+                const data = await loadFromSplitFiles();
+                log(`✓ Successfully loaded ${data.length} matches using full logic`, 'success');
+                addResult(`Full loading: SUCCESS - Loaded ${data.length} matches`, true);
+                
+            } catch (error) {
+                log(`✗ Error in full loading: ${error.message}`, 'error');
+                addResult(`Full loading: FAILED - ${error.message}`, false);
+            }
+        }
+        
+        // Load data from split files (copied from index.html)
+        async function loadFromSplitFiles() {
+            try {
+                console.log('Loading data from split files...');
+                
+                // Get today's date for the data directory
+                const today = new Date().toISOString().split('T')[0];
+                const dataDir = `data/${today}/`;
+                
+                // Also try yesterday's date as fallback
+                const yesterday = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+                const yesterdayDir = `data/${yesterday}/`;
+                
+                // Try to load from split files first
+                const data = [];
+                let part = 1;
+                let hasMore = true;
+                let currentDir = dataDir;
+                
+                // Try today's directory first, then yesterday's if that fails
+                for (let attempt = 0; attempt < 2; attempt++) {
+                    if (attempt === 1) {
+                        currentDir = yesterdayDir;
+                        console.log(`Trying yesterday's directory: ${yesterdayDir}`);
+                    }
+                    
+                    part = 1;
+                    hasMore = true;
+                    
+                    while (hasMore) {
+                        try {
+                            const filename = `${currentDir}matches_part_${part}.json`;
+                            console.log(`Loading ${filename}...`);
+                            
+                            const response = await fetch(filename);
+                            if (!response.ok) {
+                                // If we can't load the first part, try the next directory
+                                if (response.status === 404 && part === 1) {
+                                    hasMore = false;
+                                    break;
+                                }
+                                // If we can't load subsequent parts, we're done with this directory
+                                if (response.status === 404) {
+                                    hasMore = false;
+                                    break;
+                                }
+                                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                            }
+                            
+                            const partData = await response.json();
+                            data.push(...partData);
+                            console.log(`Loaded part ${part}: ${partData.length} matches from ${currentDir}`);
+                            part++;
+                            
+                        } catch (error) {
+                            console.warn(`Could not load part ${part} from ${currentDir}:`, error.message);
+                            hasMore = false;
+                        }
+                    }
+                    
+                    // If we found data in this directory, stop trying
+                    if (data.length > 0) {
+                        break;
+                    }
+                }
+                
+                if (data.length === 0) {
+                    throw new Error('No split data files found in today or yesterday, trying combined file...');
+                }
+                
+                console.log(`Loaded ${data.length} matches from ${part - 1} files`);
+                return data;
+                
+            } catch (error) {
+                console.error('Error loading split files:', error);
+                
+                // Fallback to combined file
+                console.log('Attempting to load combined file as fallback...');
+                try {
+                    const response = await fetch('all_top3_data.json');
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                    }
+                    
+                    const data = await response.json();
+                    console.log(`Loaded ${data.length} matches from combined file`);
+                    return data;
+                    
+                } catch (fallbackError) {
+                    console.error('Error loading combined file:', fallbackError);
+                    throw new Error('Could not load data from either split files or combined file');
+                }
+            }
+        }
+    </script>
+</body>
+</html>
