@@ -1,27 +1,17 @@
-# Ignore Python files
-*.py
-*.pyc
-__pycache__/
+# Ignore the large combined data file to prevent slow commits
+all_top3_data.json
 
-# Ignore data files that are not needed for website
-abilities.json
-ability_details.json
-all_matches_progress.json
-debug_gods.json
-leaderboard_data.json
-matches.json
-page_html.html
-player_links.json
-winner_abilities.json
-winners_api.json
-winners_final.json
-winners_with_images.json
-winners.json
+# Optional: Also ignore backup files
+*backup*.json
 
-# Ignore other files
-test_img.png
-test.txt
+# Keep the split data files for fast commits
+!data/
 
-# OS files
-.DS_Store
-Thumbs.db
+# Keep other important files
+!index.html
+!popular.html
+!scrape_full_new.py
+!combine_data.py
+!migrate_data_split.py
+!migrate_data.py
+!scrape_full.py

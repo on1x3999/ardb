@@ -282,9 +282,21 @@
         // Load and display data
         async function loadData() {
             try {
-                const response = await fetch('all_top3_data.json');
-                allData = await response.json();
+                // Try to load combined data first
+                let response;
+                let data;
                 
+                try {
+                    response = await fetch('all_top3_data.json');
+                    data = await response.json();
+                    console.log('Loaded combined data file');
+                } catch (e) {
+                    // If combined file doesn't exist, load from data directory
+                    console.log('Combined file not found, loading from data directory...');
+                    data = await loadFromDataDirectory();
+                }
+                
+                allData = data;
                 document.getElementById('totalMatches').textContent = allData.length;
                 
                 renderPage(currentPage);
@@ -293,7 +305,51 @@
             } catch (error) {
                 console.error('Error loading data:', error);
                 document.getElementById('matchesContainer').innerHTML = 
-                    '<div class="loading">Error loading data. Make sure the JSON file exists.</div>';
+                    '<div class="loading">Error loading data. Make sure the data files exist.</div>';
+            }
+        }
+        
+        // Load data from data directory structure
+        async function loadFromDataDirectory() {
+            const allMatches = [];
+            let totalMatches = 0;
+            
+            try {
+                // Get list of dates from data directory
+                const datesResponse = await fetch('data/');
+                const datesText = await datesResponse.text();
+                
+                // Parse directory listing to get dates
+                const dateMatches = datesText.match(/href="([^"]+)"/g);
+                const dates = dateMatches ? dateMatches.map(match => {
+                    const date = match.replace('href="', '').replace('"', '');
+                    return date.replace('/', '');
+                }).filter(date => date && date.length === 10) : [];
+                
+                console.log('Found dates:', dates);
+                
+                // Load matches from each date
+                for (const date of dates) {
+                    try {
+                        const response = await fetch(`data/${date}/matches.json`);
+                        const data = await response.json();
+                        const matches = data.matches || [];
+                        
+                        allMatches.push(...matches);
+                        totalMatches += matches.length;
+                        
+                        console.log(`Loaded ${matches.length} matches from ${date}`);
+                    } catch (e) {
+                        console.warn(`Could not load data for ${date}:`, e);
+                    }
+                }
+                
+                console.log(`Total matches loaded: ${allMatches.length}`);
+                return allMatches;
+                
+            } catch (error) {
+                console.error('Error loading from data directory:', error);
+                throw error;
             }
         }
         
